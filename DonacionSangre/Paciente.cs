@@ -15,9 +15,15 @@ namespace DonacionSangre
         private string direccion;
         private string grupoSanguineo;
 
-        public Paciente()
+        public Paciente(string nombre, string apellido, int dni, string telefono, string mail, string direccion, string grupoSanguineo)
         {
-
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.direccion = direccion;
+            this.dni = dni;
+            this.telefono = telefono;
+            this.mail = mail;
+            this.grupoSanguineo = grupoSanguineo;
         }
 
         private void setDni(int dni)
