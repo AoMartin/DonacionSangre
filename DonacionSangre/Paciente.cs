@@ -26,75 +26,12 @@ namespace DonacionSangre
             this.grupoSanguineo = grupoSanguineo;
         }
 
-        private void setDni(int dni)
-        {
-            this.dni = dni;
-        }
-
-        private int getDni()
-        {
-            return this.dni;
-        }
-
-        private void setNombre(string nom)
-        {
-            this.nombre = nom;
-        }
-
-        private string getNombre()
-        {
-            return this.nombre;
-        }
-
-        private void setApellido(string ape)
-        {
-            this.apellido= ape;
-        }
-
-        private string getApellido()
-        {
-            return this.apellido;
-        }
-
-        private void setTelefono(string tel)
-        {
-            this.telefono = tel;
-        }
-
-        private string getTelefono()
-        {
-            return this.telefono;
-        }
-
-        private void setMail(string mail)
-        {
-            this.mail = mail;
-        }
-
-        private string getMail()
-        {
-            return this.mail;
-        }
-
-        private void setDireccion(string dir)
-        {
-            this.direccion = dir;
-        }
-
-        private string getDireccion()
-        {
-            return this.direccion;
-        }
-
-        private void setGrupoSanguineo(string gs)
-        {
-            this.grupoSanguineo = gs;
-        }
-
-        private string getGrupoSanguineo()
-        {
-            return this.grupoSanguineo;
-        }
-
+        public string Nombre { get => nombre; set => nombre = value; }
+        public string Apellido { get => apellido; set => apellido = value; }
+        public int Dni { get => dni; set => dni = value; }
+        public string Telefono { get => telefono; set => telefono = value; }
+        public string Mail { get => mail; set => mail = value; }
+        public string Direccion { get => direccion; set => direccion = value; }
+        public string GrupoSanguineo { get => grupoSanguineo; set => grupoSanguineo = value; }
     }
 }
