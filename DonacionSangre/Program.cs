@@ -24,7 +24,7 @@ namespace DonacionSangre
             while (!salir)
             {
                 Console.WriteLine("\n1. Ingresar un nuevo donante\n2. Ingresar un nuevo paciente\n3. Listar donantes.\n" +
-                "4. Listar pacientes\n5. Donar\n6.Listar stock en banco\n9.Cargar set de prueba\n10. Salir del sistema");
+                "4. Listar pacientes\n5. Donar\n6. Listar stock en banco\n9. Cargar set de prueba\n10. Editar Donante \n11. Salir del sistema");
 
                 Console.WriteLine("Ingrese la opción deseada: ");
 
@@ -54,6 +54,9 @@ namespace DonacionSangre
                         CargarDatosDePrueba(donantes, pacientes, stock);
                         break;
                     case 10:
+                        editarDonante(donantes);
+                        break;
+                    case 11:
                     default: salir = true;
                         break;
                 }
@@ -220,6 +223,53 @@ namespace DonacionSangre
             }
         }
 
+        public static void editarDonante(List<Donante> donantes)
+        {
+            Console.WriteLine("Ingrese el DNI (sin puntos): ");
+
+            int dni = Convert.ToInt32(Console.ReadLine());
+
+            Donante d = BuscarDonante(donantes, dni);
+
+            if (d == null)
+            {
+                Console.WriteLine("\nNo existe el donante");
+            }
+            else
+            {
+                Console.WriteLine("Ingrese el nombre: ");
+                string nombre = Console.ReadLine();
+
+                Console.WriteLine("Ingrese el apellido");
+                string apellido = Console.ReadLine();
+
+                Console.WriteLine("Ingrese la fecha de nacimiento: ");
+                string fechaNacimiento = Console.ReadLine();
+
+                Console.WriteLine("Ingrese el telefono (sin guiones ni paréntesis): ");
+                int telefono = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine("Ingrese el mail: ");
+                string mail = Console.ReadLine();
+
+                Console.WriteLine("Ingrese la dirección: ");
+                string direccion = Console.ReadLine();
+
+                Console.WriteLine("Ingrese el grupo sanguíneo: ");
+                string grupoSanguineo = Console.ReadLine();
+
+                d.Nombre = nombre;
+                d.Apellido = apellido;
+                d.FechaNacimiento = fechaNacimiento;
+                d.Telefono = telefono;
+                d.Mail = mail;
+                d.Direccion = direccion;
+                d.GrupoSanguineo = grupoSanguineo;
+
+
+                Console.WriteLine("Datos modificados");
+            }
+        }
 
 
 
@@ -263,6 +313,8 @@ namespace DonacionSangre
             AgregarSangre(new Sangre(6, d5.GrupoSanguineo), stock);
             AgregarSangre(new Sangre(7, d5.GrupoSanguineo), stock);
             AgregarSangre(new Sangre(8, d6.GrupoSanguineo), stock);
+
+            Console.WriteLine("Datos Cargados!\nConsultar en la Opcion 3.");
         }
     }
 }
