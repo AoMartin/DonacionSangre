@@ -24,9 +24,9 @@ namespace DonacionSangre
             while (!salir)
             {
                 Console.WriteLine("\n1. Ingresar un nuevo donante\n2. Ingresar un nuevo paciente\n3. Listar donantes.\n" +
-                "4. Listar pacientes\n5. Donar\n6.Listar stock en banco\n9.Cargar set de prueba\n10. Salir del sistema");
+                "4. Listar pacientes\n5. Donar\n6. Listar stock en banco\n9. Cargar set de prueba\n10. Salir del sistema");
 
-                Console.WriteLine("Ingrese la opción deseada: ");
+                Console.WriteLine("\nIngrese la opción deseada: ");
 
                 int opcion = Convert.ToInt32(Console.ReadLine());
 
@@ -53,8 +53,10 @@ namespace DonacionSangre
                     case 9:
                         CargarDatosDePrueba(donantes, pacientes, stock);
                         break;
-                    case 10:
-                    default: salir = true;
+                    case 10: salir = true;
+                        break;
+                    default:
+                        Console.WriteLine("\n-Ingrese una opción valida-\n ");
                         break;
                 }
             }
@@ -71,6 +73,7 @@ namespace DonacionSangre
         //Metodo para ingresar al sistema un nuevo donante.
         private static void IngresarDonante(List<Donante> donantes)
         {
+            Console.WriteLine("\n-Ingresar Nuevo Donante:\n ");
             Console.WriteLine("Ingrese el DNI (sin puntos): ");
             int dni = Convert.ToInt32(Console.ReadLine());
             Donante d = BuscarDonante(donantes, dni);
@@ -111,6 +114,7 @@ namespace DonacionSangre
         //Metodo para ingresar al sistema un nuevo paciente.
         private static void IngresarPaciente(Queue<Paciente> pacientes)
         {
+            Console.WriteLine("\n-Ingresar Nuevo Paciente:\n ");
             Console.WriteLine("Ingrese el DNI (sin puntos): ");
             int dni = Convert.ToInt32(Console.ReadLine());
 
