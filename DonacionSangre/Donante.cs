@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DonacionSangre
 {
-    public class Donante
+    class Donante
     {
         private int dni;
         private string nombre;
@@ -14,9 +14,9 @@ namespace DonacionSangre
         private int telefono;
         private string mail;
         private string direccion;
-        private string grupoSanguineo;
+        private Sangre tipoSangre;
         
-        public Donante(int dni, string nombre, string apellido, string fechaNacimiento, int telefono, string mail, string direccion, string grupoSanguineo)
+        public Donante(int dni, string nombre, string apellido, string fechaNacimiento, int telefono, string mail, string direccion, Sangre tipoSangre)
         {
             this.dni = dni;
             this.nombre = nombre;
@@ -25,7 +25,7 @@ namespace DonacionSangre
             this.telefono = telefono;
             this.mail = mail;
             this.direccion = direccion;
-            this.grupoSanguineo = grupoSanguineo;
+            this.tipoSangre = tipoSangre;
         }
 
         public int Dni { get => dni; set => dni = value; }
@@ -35,7 +35,7 @@ namespace DonacionSangre
         public int Telefono { get => telefono; set => telefono = value; }
         public string Mail { get => mail; set => mail = value; }
         public string Direccion { get => direccion; set => direccion = value; }
-        public string GrupoSanguineo { get => grupoSanguineo; set => grupoSanguineo = value; }
+        public Sangre TipoSangre { get => tipoSangre; set => tipoSangre = value; }
 
 
     }

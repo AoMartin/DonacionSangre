@@ -29,7 +29,7 @@ namespace DonacionSangre
                 Console.WriteLine("\nIngrese la opción deseada: ");
 
                 int opcion = Convert.ToInt32(Console.ReadLine());
-
+                
                 switch (opcion)
                 {
                     case 1:
@@ -105,13 +105,76 @@ namespace DonacionSangre
                 Console.WriteLine("Ingrese la dirección: ");
                 string direccion = Console.ReadLine();
 
-                Console.WriteLine("Ingrese el grupo sanguíneo: ");
-                string grupoSanguineo = Console.ReadLine();
+                Sangre grupoSanguineo = IngresarTipoSangre();
 
                 Donante donante = new Donante(dni, nombre, apellido, fechaNacimiento, telefono, mail, direccion, grupoSanguineo);
 
                 donantes.Add(donante);
+                Console.WriteLine("-Donante ingresado-");
             };
+        }
+
+        //Esta funcion se usas cuando se le solicita al usuario ingresar un tipo de sangre
+        static Sangre IngresarTipoSangre()
+        {
+            bool ingresoExitoso = false;
+
+            //Se instancia un nuevo objeto Sangre y se usa para ir cargando los datos ingresados
+            Sangre tipoIngresado = new Sangre(0,GrupoSangre.A,false);
+
+            while (!ingresoExitoso)
+            {
+                Console.WriteLine("\n1- A \n2- B \n3- AB \n4- Cero");
+                Console.WriteLine("Ingrese el grupo sanguíneo: ");
+                int opcion = Convert.ToInt32(Console.ReadLine());
+
+                switch (opcion)
+                {
+                    case 1:
+                        tipoIngresado.GrupoSanguineo = GrupoSangre.A;
+                        ingresoExitoso = true;
+                        break;
+                    case 2:
+                        tipoIngresado.GrupoSanguineo = GrupoSangre.B;
+                        ingresoExitoso = true;
+                        break;
+                    case 3:
+                        tipoIngresado.GrupoSanguineo = GrupoSangre.AB;
+                        ingresoExitoso = true;
+                        break;
+                    case 4:
+                        tipoIngresado.GrupoSanguineo = GrupoSangre.Cero;
+                        ingresoExitoso = true;
+                        break;
+                    default:
+                        Console.WriteLine("\n-Ingrese una opción valida-\n ");
+                        break;
+                }
+            }
+
+            ingresoExitoso = false;
+
+            while (!ingresoExitoso)
+            {
+                Console.WriteLine("Es factor RH positivo: ");
+                string factor = Console.ReadLine().ToLower();
+
+                if(factor=="si" || factor == "s")
+                {
+                    tipoIngresado.FactorRH = true;
+                    ingresoExitoso = true;
+                }
+                if (factor == "no" || factor == "n")
+                {
+                    tipoIngresado.FactorRH = false;
+                    ingresoExitoso = true;
+                }
+
+                if (!ingresoExitoso)
+                 Console.WriteLine("\n-Ingrese una opción valida-\n ");
+            }
+
+            return tipoIngresado;
         }
 
         //Metodo para ingresar al sistema un nuevo paciente.
@@ -136,18 +199,19 @@ namespace DonacionSangre
             Console.WriteLine("Ingrese la dirección: ");
             string direccion = Console.ReadLine();
 
-            Console.WriteLine("Ingrese el grupo sanguíneo: ");
-            string grupoSanguineo = Console.ReadLine();
+            Sangre grupoSanguineo = IngresarTipoSangre();
 
             Paciente paciente = new Paciente(nombre, apellido, dni, telefono, mail, direccion, grupoSanguineo);
 
             pacientes.Enqueue(paciente);
+            Console.WriteLine("-Paciente ingresado-");
         }
 
         public static void ListarDonantes(List<Donante> donantes)
         {
             if (donantes.Count > 0)
             {
+                Console.WriteLine("\n-Listado de Donantes:\n ");
                 foreach (Donante d in donantes)
                 {
                     Console.WriteLine("\nNombre: " + d.Nombre + "\nApellido: " + d.Apellido + "\nD.N.I: " + d.Dni);
@@ -163,6 +227,7 @@ namespace DonacionSangre
         {
             if (pacientes.Count > 0)
             {
+                Console.WriteLine("\n-Listado de Pacientes:\n ");
                 foreach (Paciente p in pacientes)
                 {
                     Console.WriteLine("\nNombre: " + p.Nombre + "\nApellido: " + p.Apellido + "\nD.N.I: " + p.Dni);
@@ -193,7 +258,7 @@ namespace DonacionSangre
                 
                 int litros = int.Parse(Console.ReadLine());
 
-                Sangre s = new Sangre(litros, d.GrupoSanguineo);
+                Sangre s = new Sangre(litros, d.TipoSangre.GrupoSanguineo, d.TipoSangre.FactorRH);
 
                 AgregarSangre(s, stock);
 
@@ -223,7 +288,12 @@ namespace DonacionSangre
         {
             foreach(Sangre s in stock)
             {
-                Console.WriteLine("\nGrupo: " + s.GrupoSanguineo + "\nLitros: " + s.Litros);
+                Console.WriteLine("\nGrupo: " + s.GrupoSanguineo);
+                if(s.FactorRH)
+                    Console.WriteLine("Factor: Positivo");
+                else
+                    Console.WriteLine("Factor: Negativo");
+                Console.WriteLine("Litros: " + s.Litros);
             }
         }
 
@@ -259,8 +329,7 @@ namespace DonacionSangre
                 Console.WriteLine("Ingrese la dirección: ");
                 string direccion = Console.ReadLine();
 
-                Console.WriteLine("Ingrese el grupo sanguíneo: ");
-                string grupoSanguineo = Console.ReadLine();
+                Sangre grupoSanguineo = IngresarTipoSangre();
 
                 d.Nombre = nombre;
                 d.Apellido = apellido;
@@ -268,7 +337,7 @@ namespace DonacionSangre
                 d.Telefono = telefono;
                 d.Mail = mail;
                 d.Direccion = direccion;
-                d.GrupoSanguineo = grupoSanguineo;
+                d.TipoSangre = grupoSanguineo;
 
 
                 Console.WriteLine("Datos modificados");
@@ -281,12 +350,12 @@ namespace DonacionSangre
 
         static void CargarDatosDePrueba(List<Donante> donantes, Queue<Paciente> pacientes, List<Sangre> stock)
         {
-            Donante d1 = new Donante(38000000, "Juan", "Perez", "01/01/1990", 1558201451, "prueba1@hotmail.com", "Calle falsa 121", "A+");
-            Donante d2 = new Donante(38000001, "Luis", "Ocres", "02/01/1990", 1558201452, "prueba2@hotmail.com", "Calle falsa 122", "A+");
-            Donante d3 = new Donante(38000002, "José", "Pedro", "03/01/1990", 1558201453, "prueba3@hotmail.com", "Calle falsa 123", "B+");
-            Donante d4 = new Donante(38000003, "Luli", "Mines", "04/01/1990", 1558201454, "prueba4@hotmail.com", "Calle falsa 124", "B+");
-            Donante d5 = new Donante(38000004, "Mili", "Tujio", "05/01/1990", 1558201455, "prueba5@hotmail.com", "Calle falsa 125", "AB+");
-            Donante d6 = new Donante(38000005, "Pili", "Munic", "06/01/1990", 1558201456, "prueba6@hotmail.com", "Calle falsa 126", "AB+");
+            Donante d1 = new Donante(38000000, "Juan", "Perez", "01/01/1990", 1558201451, "prueba1@hotmail.com", "Calle falsa 121", new Sangre(1,GrupoSangre.A,true));
+            Donante d2 = new Donante(38000001, "Luis", "Ocres", "02/01/1990", 1558201452, "prueba2@hotmail.com", "Calle falsa 122", new Sangre(2, GrupoSangre.B, true));
+            Donante d3 = new Donante(38000002, "José", "Pedro", "03/01/1990", 1558201453, "prueba3@hotmail.com", "Calle falsa 123", new Sangre(3, GrupoSangre.AB, false));
+            Donante d4 = new Donante(38000003, "Luli", "Mines", "04/01/1990", 1558201454, "prueba4@hotmail.com", "Calle falsa 124", new Sangre(4, GrupoSangre.Cero, false));
+            Donante d5 = new Donante(38000004, "Mili", "Tujio", "05/01/1990", 1558201455, "prueba5@hotmail.com", "Calle falsa 125", new Sangre(5, GrupoSangre.AB, true));
+            Donante d6 = new Donante(38000005, "Pili", "Munic", "06/01/1990", 1558201456, "prueba6@hotmail.com", "Calle falsa 126", new Sangre(6, GrupoSangre.AB, false));
 
             donantes.Add(d1);
             donantes.Add(d2);
@@ -295,12 +364,12 @@ namespace DonacionSangre
             donantes.Add(d5);
             donantes.Add(d6);
 
-            Paciente p1 = new Paciente("Santi", "Silva",    37000000,"1555555551", "paciente1@gmail.com", "direccion 1", "A+");
-            Paciente p2 = new Paciente("Mati", "Suarez",    37000001,"1555555552", "paciente2@gmail.com", "direccion 1", "A +");
-            Paciente p3 = new Paciente("Juli", "Borre",     37000002,"1555555553", "paciente3@gmail.com", "direccion 3", "B +");
-            Paciente p4 = new Paciente("Juani", "Pratto",   37000003,"1555555554", "paciente4@gmail.com", "direccion 4", "B +");
-            Paciente p5 = new Paciente("Dalma", "Maradona", 37000004,"1555555555", "paciente5@gmail.com", "direccion 5", "AB +");
-            Paciente p6 = new Paciente("Memi", "Mora",      37000005,"1555555556", "paciente6@gmail.com", "direccion 6", "AB +");
+            Paciente p1 = new Paciente("Santi", "Silva",    37000000,"1555555551", "paciente1@gmail.com", "direccion 1", new Sangre(1,GrupoSangre.A,true));
+            Paciente p2 = new Paciente("Mati", "Suarez",    37000001,"1555555552", "paciente2@gmail.com", "direccion 1", new Sangre(2, GrupoSangre.B, true));
+            Paciente p3 = new Paciente("Juli", "Borre",     37000002,"1555555553", "paciente3@gmail.com", "direccion 3", new Sangre(3, GrupoSangre.AB, false));
+            Paciente p4 = new Paciente("Juani", "Pratto",   37000003,"1555555554", "paciente4@gmail.com", "direccion 4", new Sangre(4, GrupoSangre.Cero, false));
+            Paciente p5 = new Paciente("Dalma", "Maradona", 37000004,"1555555555", "paciente5@gmail.com", "direccion 5", new Sangre(5, GrupoSangre.AB, true));
+            Paciente p6 = new Paciente("Memi", "Mora",      37000005,"1555555556", "paciente6@gmail.com", "direccion 6", new Sangre(6, GrupoSangre.AB, false));
 
             pacientes.Enqueue(p1);
             pacientes.Enqueue(p2);
@@ -309,14 +378,14 @@ namespace DonacionSangre
             pacientes.Enqueue(p5);
             pacientes.Enqueue(p6);
 
-            AgregarSangre(new Sangre(1, d1.GrupoSanguineo), stock);
-            AgregarSangre(new Sangre(2, d1.GrupoSanguineo), stock);
-            AgregarSangre(new Sangre(3, d2.GrupoSanguineo), stock);
-            AgregarSangre(new Sangre(4, d3.GrupoSanguineo), stock);
-            AgregarSangre(new Sangre(5, d4.GrupoSanguineo), stock);
-            AgregarSangre(new Sangre(6, d5.GrupoSanguineo), stock);
-            AgregarSangre(new Sangre(7, d5.GrupoSanguineo), stock);
-            AgregarSangre(new Sangre(8, d6.GrupoSanguineo), stock);
+            AgregarSangre(d1.TipoSangre, stock);
+            AgregarSangre(d1.TipoSangre, stock);
+            AgregarSangre(d2.TipoSangre, stock);
+            AgregarSangre(d3.TipoSangre, stock);
+            AgregarSangre(d4.TipoSangre, stock);
+            AgregarSangre(d5.TipoSangre, stock);
+            AgregarSangre(d5.TipoSangre, stock);
+            AgregarSangre(d6.TipoSangre, stock);
 
             Console.WriteLine("Datos Cargados!\nConsultar en la Opcion 3.");
         }
