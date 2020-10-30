@@ -344,7 +344,26 @@ namespace DonacionSangre
             }
         }
 
-
+        static bool ChequearCompatibilidad(Sangre donante, Sangre receptor)
+        {
+            // Cero- puede donar a todos los tipos y factores
+            if (donante.GrupoSanguineo == GrupoSangre.Cero && donante.FactorRH == false) return true;
+            // AB+ puede recibir de todos los tipos y factorRH
+            if (receptor.GrupoSanguineo == GrupoSangre.AB && receptor.FactorRH == true) return true;
+            // Si el donante y el receptor tienen el mismo tipo y el factor es igual o positivo
+            if (receptor.GrupoSanguineo == donante.GrupoSanguineo)
+            {
+                if (donante.FactorRH || donante.FactorRH == receptor.FactorRH) return true;
+            }
+            // AB- puede recibir de A- y B-
+            if(receptor.GrupoSanguineo == GrupoSangre.AB && !receptor.FactorRH)
+            {
+                if (donante.GrupoSanguineo == GrupoSangre.A && !donante.FactorRH) return true;
+                if (donante.GrupoSanguineo == GrupoSangre.B && !donante.FactorRH) return true;
+            }
+            // Si no se sumple ninguna condicion
+            return false;
+        }
 
 
 
