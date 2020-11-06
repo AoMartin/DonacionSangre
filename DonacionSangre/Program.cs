@@ -160,7 +160,7 @@ namespace DonacionSangre
 
             while (!ingresoExitoso)
             {
-                Console.WriteLine("Es factor RH positivo: ");
+                Console.WriteLine("Es factor RH positivo (S/N): ");
                 string factor = Console.ReadLine().ToLower();
 
                 if(factor=="si" || factor == "s")
@@ -175,7 +175,7 @@ namespace DonacionSangre
                 }
 
                 if (!ingresoExitoso)
-                 Console.WriteLine("\n-Ingrese una opción valida-\n ");
+                 Console.WriteLine("\n-Ingrese una opción valida (S/N)-\n ");
             }
 
             return tipoIngresado;
