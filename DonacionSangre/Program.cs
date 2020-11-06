@@ -17,14 +17,14 @@ namespace DonacionSangre
 
             Queue<Paciente> pacientes = new Queue<Paciente>();
 
-            Console.WriteLine("SISTEMA DE DONACIÓN DE SANGRE");
+            Console.WriteLine("----------SISTEMA DE DONACIÓN DE SANGRE----------");
 
             bool salir = false;
 
             while (!salir)
             {
-                Console.WriteLine("\n1. Ingresar un nuevo donante\n2. Ingresar un nuevo paciente\n3. Listar donantes.\n" +
-                "4. Listar pacientes\n5. Donar\n6. Listar stock en banco\n7. Hacer una transfusion\n8. Cargar set de prueba\n9. Editar Donante \n10. Salir del sistema");
+                Console.WriteLine("\n\t1. Ingresar un nuevo donante\n\t2. Ingresar un nuevo paciente\n\t3. Listar donantes\n\t" +
+                "4. Listar pacientes\n\t5. Donar\n\t6. Listar stock en banco\n\t7. Hacer una transfusion\n\t8. Cargar set de prueba\n\t9. Editar Donante \n\t10. Salir del sistema");
 
                 Console.WriteLine("\nIngrese la opción deseada: ");
 
@@ -57,9 +57,10 @@ namespace DonacionSangre
                         CargarDatosDePrueba(donantes, pacientes, stock);
                         break;
                     case 9:
-                        editarDonante(donantes);
+                        EditarDonante(donantes);
                         break;
-                    case 10:salir = true;
+                    case 10:
+                        salir = true;
                         break;
                     default: 
                         Console.WriteLine("\n-Ingrese una opción valida-\n ");
@@ -194,7 +195,7 @@ namespace DonacionSangre
             string apellido = Console.ReadLine();
 
             Console.WriteLine("Ingrese el telefono (sin guiones ni paréntesis): ");
-            string telefono = Console.ReadLine();
+            int telefono = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Ingrese el mail: ");
             string mail = Console.ReadLine();
@@ -307,7 +308,7 @@ namespace DonacionSangre
             }
         }
 
-        public static void editarDonante(List<Donante> donantes)
+        public static void EditarDonante(List<Donante> donantes)
         {
             Console.WriteLine("Ingrese el DNI (sin puntos): ");
 
@@ -447,12 +448,12 @@ namespace DonacionSangre
             donantes.Add(d5);
             donantes.Add(d6);
 
-            Paciente p1 = new Paciente("Santi", "Silva",    37000000,"1555555551", "paciente1@gmail.com", "direccion 1", new Sangre(1,GrupoSangre.A,true));
-            Paciente p2 = new Paciente("Mati", "Suarez",    37000001,"1555555552", "paciente2@gmail.com", "direccion 1", new Sangre(2, GrupoSangre.B, true));
-            Paciente p3 = new Paciente("Juli", "Borre",     37000002,"1555555553", "paciente3@gmail.com", "direccion 3", new Sangre(3, GrupoSangre.AB, false));
-            Paciente p4 = new Paciente("Juani", "Pratto",   37000003,"1555555554", "paciente4@gmail.com", "direccion 4", new Sangre(4, GrupoSangre.Cero, false));
-            Paciente p5 = new Paciente("Dalma", "Maradona", 37000004,"1555555555", "paciente5@gmail.com", "direccion 5", new Sangre(5, GrupoSangre.AB, true));
-            Paciente p6 = new Paciente("Memi", "Mora",      37000005,"1555555556", "paciente6@gmail.com", "direccion 6", new Sangre(6, GrupoSangre.AB, false));
+            Paciente p1 = new Paciente("Santi", "Silva",    37000000, 1555555551 , "paciente1@gmail.com", "direccion 1", new Sangre(1,GrupoSangre.A,true));
+            Paciente p2 = new Paciente("Mati", "Suarez",    37000001, 1555555552, "paciente2@gmail.com", "direccion 1", new Sangre(2, GrupoSangre.B, true));
+            Paciente p3 = new Paciente("Juli", "Borre",     37000002, 1555555553, "paciente3@gmail.com", "direccion 3", new Sangre(3, GrupoSangre.AB, false));
+            Paciente p4 = new Paciente("Juani", "Pratto",   37000003, 1555555554, "paciente4@gmail.com", "direccion 4", new Sangre(4, GrupoSangre.Cero, false));
+            Paciente p5 = new Paciente("Dalma", "Maradona", 37000004, 1555555555, "paciente5@gmail.com", "direccion 5", new Sangre(5, GrupoSangre.AB, true));
+            Paciente p6 = new Paciente("Memi", "Mora",      37000005, 1555555556, "paciente6@gmail.com", "direccion 6", new Sangre(6, GrupoSangre.AB, false));
 
             pacientes.Enqueue(p1);
             pacientes.Enqueue(p2);

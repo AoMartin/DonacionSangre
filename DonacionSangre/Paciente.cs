@@ -10,12 +10,12 @@ namespace DonacionSangre
         private string nombre;
         private string apellido;
         private int dni;
-        private string telefono;
+        private int telefono;
         private string mail;
         private string direccion;
         private Sangre tipoSangre;
 
-        public Paciente(string nombre, string apellido, int dni, string telefono, string mail, string direccion, Sangre tipoSangre)
+        public Paciente(string nombre, string apellido, int dni, int telefono, string mail, string direccion, Sangre tipoSangre)
         {
             this.nombre = nombre;
             this.apellido = apellido;
@@ -29,7 +29,7 @@ namespace DonacionSangre
         public string Nombre { get => nombre; set => nombre = value; }
         public string Apellido { get => apellido; set => apellido = value; }
         public int Dni { get => dni; set => dni = value; }
-        public string Telefono { get => telefono; set => telefono = value; }
+        public int Telefono { get => telefono; set => telefono = value; }
         public string Mail { get => mail; set => mail = value; }
         public string Direccion { get => direccion; set => direccion = value; }
         public Sangre TipoSangre { get => tipoSangre; set => tipoSangre = value; }
