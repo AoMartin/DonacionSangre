@@ -24,7 +24,7 @@ namespace DonacionSangre
             while (!salir)
             {
                 Console.WriteLine("\n1. Ingresar un nuevo donante\n2. Ingresar un nuevo paciente\n3. Listar donantes.\n" +
-                "4. Listar pacientes\n5. Donar\n6. Listar stock en banco\n9. Cargar set de prueba\n10. Editar Donante \n11. Salir del sistema");
+                "4. Listar pacientes\n5. Donar\n6. Listar stock en banco\n7. Hacer una transfusion\n8. Cargar set de prueba\n9. Editar Donante \n10. Salir del sistema");
 
                 Console.WriteLine("\nIngrese la opción deseada: ");
 
@@ -50,13 +50,16 @@ namespace DonacionSangre
                     case 6:
                         ListarStock(stock);
                         break;
-                    case 9:
+                    case 7:
+                        HacerTransfusion(pacientes,stock);
+                        break;
+                    case 8:
                         CargarDatosDePrueba(donantes, pacientes, stock);
                         break;
-                    case 10:
+                    case 9:
                         editarDonante(donantes);
                         break;
-                    case 11:salir = true;
+                    case 10:salir = true;
                         break;
                     default: 
                         Console.WriteLine("\n-Ingrese una opción valida-\n ");
@@ -203,6 +206,10 @@ namespace DonacionSangre
 
             Paciente paciente = new Paciente(nombre, apellido, dni, telefono, mail, direccion, grupoSanguineo);
 
+            Console.WriteLine("\nCuantos litros de sangre necesita: ");
+            int litros = Convert.ToInt32(Console.ReadLine());
+            grupoSanguineo.Litros = litros;
+
             pacientes.Enqueue(paciente);
             Console.WriteLine("-Paciente ingresado-");
         }
@@ -215,6 +222,7 @@ namespace DonacionSangre
                 foreach (Donante d in donantes)
                 {
                     Console.WriteLine("\nNombre: " + d.Nombre + "\nApellido: " + d.Apellido + "\nD.N.I: " + d.Dni);
+                    Console.WriteLine("Sangre Grupo: " + d.TipoSangre.GrupoSanguineo + "\nFactor RH: " + FactorRH(d.TipoSangre.FactorRH));
                 }
             }
             else
@@ -231,6 +239,8 @@ namespace DonacionSangre
                 foreach (Paciente p in pacientes)
                 {
                     Console.WriteLine("\nNombre: " + p.Nombre + "\nApellido: " + p.Apellido + "\nD.N.I: " + p.Dni);
+                    Console.WriteLine("Sangre Grupo: " + p.TipoSangre.GrupoSanguineo + "\nFactor RH: " + FactorRH(p.TipoSangre.FactorRH));
+                    Console.WriteLine("Necesita " + p.TipoSangre.Litros + " litros de sangre");
                 }
             }
             else
@@ -365,7 +375,61 @@ namespace DonacionSangre
             return false;
         }
 
+        static void HacerTransfusion(Queue<Paciente> pacientes, List<Sangre> stock)
+        {
+            if(pacientes.Count == 0)
+            {
+                Console.WriteLine("-No hay pacientes en lista de espera.-");
+                return;
+            }
+            if (stock.Count == 0)
+            {
+                Console.WriteLine("-Actualmente no hay reservas disponibles en el banco.-");
+                return;
+            }
 
+            Paciente pacienteActual = pacientes.Peek();
+            Sangre sangreCompatible = null;
+
+            Console.WriteLine("\nEl paciente actual en la lista de espera es: ");
+            Console.WriteLine(pacienteActual.Nombre +" " + pacienteActual.Apellido + " DNI: " + pacienteActual.Dni);
+            Console.WriteLine("Sangre Grupo: " + pacienteActual.TipoSangre.GrupoSanguineo + " Factor RH: " + FactorRH(pacienteActual.TipoSangre.FactorRH));
+            Console.WriteLine("El paciente necesita " + pacienteActual.TipoSangre.Litros + " litros de sangre.");
+
+            foreach(Sangre s in stock)
+            {
+                if (ChequearCompatibilidad(s, pacienteActual.TipoSangre))
+                {
+                    if( s.Litros >= pacienteActual.TipoSangre.Litros)
+                        sangreCompatible = s;
+                }
+            }
+
+            if(sangreCompatible == null)
+            {
+                Console.WriteLine("\nNo hay stock disponible para la cantidad necesaria de litros del grupo y factor que necesita el paciente.");
+            }
+            else
+            {
+                sangreCompatible.Litros -= pacienteActual.TipoSangre.Litros;
+                if (sangreCompatible.Litros <= 0)
+                    stock.Remove(sangreCompatible);
+
+                Console.WriteLine("\nLa transfusion fue realizada con exito.");
+                pacientes.Dequeue();
+                Console.WriteLine("Quedan " + pacientes.Count + " pacientes en lista de espera.");
+            }
+
+            return;
+        }
+
+        public static string FactorRH(bool factor)
+        {
+            if (factor)
+                return "Positivo";
+            else
+                return "Negativo";
+        }
 
         static void CargarDatosDePrueba(List<Donante> donantes, Queue<Paciente> pacientes, List<Sangre> stock)
         {
